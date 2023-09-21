@@ -19,10 +19,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import feedback_flow.feedback_api.domain.model.CustomerFeedback;
 import feedback_flow.feedback_api.domain.model.CustomerFeedbackType;
 import feedback_flow.feedback_api.domain.repository.CustomerFeedbackRepository;
-import feedback_flow.feedback_api.domain.service.AmazonSNSService;
+import feedback_flow.feedback_api.domain.request.CreateCustomerFeedbackRequest;
+import feedback_flow.feedback_api.domain.service.CustomerFeedbackService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -31,12 +33,13 @@ public class CustomerFeedbackController {
 
     private final CustomerFeedbackRepository feedbackRepository;
 
-    private final AmazonSNSService snsService;
+    private final CustomerFeedbackService feedbackService;
 
     @Autowired
-    public CustomerFeedbackController(CustomerFeedbackRepository feedbackRepository, AmazonSNSService snsService) {
+    public CustomerFeedbackController(CustomerFeedbackRepository feedbackRepository,
+            CustomerFeedbackService feedbackService) {
         this.feedbackRepository = feedbackRepository;
-        this.snsService = snsService;
+        this.feedbackService = feedbackService;
     }
 
     @GetMapping
@@ -55,31 +58,20 @@ public class CustomerFeedbackController {
     @Operation(summary = "Create a new feedback")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved all costumers feedbacks") })
-    public ResponseEntity<String> submitFeedback(@Valid @RequestBody CustomerFeedback feedback) {
-        if (feedback.getId() != null) {
-            return ResponseEntity.badRequest().body("The 'id' field should not be provided in the request.");
-        } else if (feedback.getStatus() != null) {
-            return ResponseEntity.badRequest().body("The 'status' field should not be provided in the request.");
-        }
-
+    public ResponseEntity<String> submitFeedback(@Valid @RequestBody CreateCustomerFeedbackRequest feedback) {
         CustomerFeedbackType feedBackType = feedback.getType();
-        if (feedBackType == CustomerFeedbackType.SUGGESTION) {
+        try {
             ObjectMapper objectMapper = new ObjectMapper();
-            try {
-                String feedBackJsonString = objectMapper.writeValueAsString(feedback);
-                PublishResult result = snsService.publishToSNSTopic(feedBackJsonString);
-                return new ResponseEntity<>("Feedback received with ID: " + result.getMessageId(), HttpStatus.CREATED);
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                return ResponseEntity.internalServerError().body(e.getMessage());
-            } catch (Exception e) {
-                e.printStackTrace();
-                return ResponseEntity.internalServerError().body(e.getMessage());
-            }
-
+            String feedBackJsonString = objectMapper.writeValueAsString(feedback);
+            PublishResult result = feedbackService.publishFeedback(feedBackType, feedBackJsonString);
+            return new ResponseEntity<>("Feedback received with ID: " + result.getMessageId(), HttpStatus.CREATED);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(e.getMessage());
         }
-
-        return ResponseEntity.internalServerError().body("Invalid feedback type");
 
     }
 
