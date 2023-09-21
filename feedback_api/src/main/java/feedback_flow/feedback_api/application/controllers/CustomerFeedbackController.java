@@ -1,6 +1,6 @@
-package feedback_flow.feedback_api.domain.controller;
+package feedback_flow.feedback_api.application.controllers;
 
-import feedback_flow.feedback_api.domain.service.SNSService;
+import feedback_flow.feedback_api.application.services.SNSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/customer_feedback")
-public class CustomerFeedback {
+public class CustomerFeedbackController {
 
     @GetMapping
     public String index() {
