@@ -1,4 +1,4 @@
-package feedback_flow.feedback_api.domain.service;
+package feedback_flow.feedback_api.application.sevices;
 
 import org.springframework.stereotype.Service;
 

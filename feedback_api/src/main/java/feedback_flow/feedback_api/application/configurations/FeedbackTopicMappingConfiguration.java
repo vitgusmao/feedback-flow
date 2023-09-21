@@ -1,18 +1,18 @@
-package feedback_flow.feedback_api.domain.configuration;
+package feedback_flow.feedback_api.application.configurations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
-import feedback_flow.feedback_api.domain.model.CustomerFeedbackType;
+import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedbackType;
 import io.github.cdimascio.dotenv.Dotenv;
 
 @Configuration
-public class FeedbackTopicMapping {
+public class FeedbackTopicMappingConfiguration {
 
     private final Dotenv dotenv;
 
     @Autowired
-    public FeedbackTopicMapping(Dotenv dotenv) {
+    public FeedbackTopicMappingConfiguration(Dotenv dotenv) {
         this.dotenv = dotenv;
     }
 

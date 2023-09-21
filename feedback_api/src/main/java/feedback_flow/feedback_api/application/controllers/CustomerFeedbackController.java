@@ -1,4 +1,4 @@
-package feedback_flow.feedback_api.domain.controller;
+package feedback_flow.feedback_api.application.controllers;
 
 import java.util.List;
 
@@ -16,11 +16,11 @@ import com.amazonaws.services.sns.model.PublishResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import feedback_flow.feedback_api.domain.model.CustomerFeedback;
-import feedback_flow.feedback_api.domain.model.CustomerFeedbackType;
-import feedback_flow.feedback_api.domain.repository.CustomerFeedbackRepository;
-import feedback_flow.feedback_api.domain.request.CreateCustomerFeedbackRequest;
-import feedback_flow.feedback_api.domain.service.CustomerFeedbackService;
+import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedback;
+import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedbackType;
+import feedback_flow.feedback_api.application.repositories.CustomerFeedbackRepository;
+import feedback_flow.feedback_api.application.requests.CreateCustomerFeedbackRequest;
+import feedback_flow.feedback_api.application.sevices.CustomerFeedbackService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
