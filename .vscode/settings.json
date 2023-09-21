@@ -1,3 +1,20 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+  "editor.formatOnSave": true,
+  "[xml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    // "editor.codeActionsOnSave": {
+    //   "source.fixAll.eslint": true
+    // }
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    // "editor.codeActionsOnSave": {
+    //   "source.fixAll.eslint": true
+    // }
+  },
+  "[java]": { "editor.defaultFormatter": "redhat.java" },
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "maven.pomfile.autoUpdateEffectivePOM": true,
+  "java.editor.reloadChangedSources": "auto"
 }
