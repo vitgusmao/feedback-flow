@@ -1,5 +1,10 @@
 package feedback_flow.feedback_api.domain.model;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 
 @Getter
@@ -17,8 +22,10 @@ public class CustomerFeedback {
     @Column(length = 250, nullable = false)
     private String message;
 
+    @Column(nullable = false)
     private CustomerFeedbackType type;
 
+    @Column(nullable = false)
     private CustomerFeedbackStatus status;
 
     @Override

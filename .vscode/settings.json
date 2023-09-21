@@ -16,5 +16,6 @@
   "java.compile.nullAnalysis.mode": "automatic",
   "java.configuration.updateBuildConfiguration": "automatic",
   "maven.pomfile.autoUpdateEffectivePOM": true,
-  "java.editor.reloadChangedSources": "auto"
+  "java.editor.reloadChangedSources": "auto",
+  "cSpell.words": ["Configurer"]
 }
