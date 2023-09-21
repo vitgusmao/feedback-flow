@@ -1,5 +1,6 @@
 package feedback_flow.feedback_api.domain.customerFeedback;
 
+import feedback_flow.feedback_api.application.dtos.CustomerFeedbackDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,8 +29,9 @@ public class CustomerFeedback {
     @Column(nullable = false)
     private CustomerFeedbackStatus status;
 
-    @Override
-    public String toString() {
-        return "";
+    public CustomerFeedback(CustomerFeedbackDTO customerFeedbackDTO) {
+        this.message = customerFeedbackDTO.message();
+        this.type = customerFeedbackDTO.type();
+        this.status = CustomerFeedbackStatus.RECEIVED;
     }
 }
