@@ -1,4 +1,5 @@
 package feedback_flow.feedback_api.domain.customer_feedback;
+import feedback_flow.feedback_api.application.dtos.CustomerFeedbackDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,8 +22,9 @@ public class CustomerFeedback {
 
     private CustomerFeedbackStatus status;
 
-    @Override
-    public String toString() {
-        return "";
+    public CustomerFeedback(CustomerFeedbackDTO customerFeedbackDTO) {
+        this.message = customerFeedbackDTO.message();
+        this.type = customerFeedbackDTO.type();
+        this.status = CustomerFeedbackStatus.RECEIVED;
     }
 }
