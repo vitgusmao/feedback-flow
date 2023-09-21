@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "vscjava.vscode-maven",
+        "vscjava.vscode-java-dependency",
+        "vscjava.vscode-java-test",
+        "ms-azuretools.vscode-docker"
+    ]
+}
