@@ -2,15 +2,12 @@ package feedback_flow.feedback_api.application.controllers;
 
 import java.util.List;
 
+import feedback_flow.feedback_api.application.dtos.CustomerFeedbackDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.amazonaws.services.sns.model.PublishResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -47,10 +44,23 @@ public class CustomerFeedbackController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved all costumers feedbacks")
     })
-
     public ResponseEntity<List<CustomerFeedback>> getAllFeedback() {
         List<CustomerFeedback> feedbackList = feedbackRepository.findAll();
         return ResponseEntity.ok(feedbackList);
+    }
+
+    @GetMapping("/history")
+    @Operation(summary = "Get the list off feedbacks")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved all costumers feedbacks")
+    })
+    public List<CustomerFeedback> getAllFeedbackOfHistory() {
+        return this.feedbackService.showAllCustomerFeedback();
+    }
+
+    @GetMapping("/history/{customerFeedBackId}")
+    public CustomerFeedback show(@PathVariable Long customerFeedBackId) throws Exception {
+        return this.feedbackService.findCustomerFeedbackById(customerFeedBackId);
     }
 
     @PostMapping
@@ -58,12 +68,13 @@ public class CustomerFeedbackController {
     @Operation(summary = "Create a new feedback")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved all costumers feedbacks") })
-    public ResponseEntity<String> submitFeedback(@Valid @RequestBody CreateCustomerFeedbackRequest feedback) {
-        CustomerFeedbackType feedBackType = feedback.getType();
+    public ResponseEntity<String> submitFeedback(@Valid @RequestBody CustomerFeedbackDTO feedback) {
+        CustomerFeedback newFeedback = this.feedbackService.saveCustomerFeedback(new CustomerFeedback(feedback));
+
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             String feedBackJsonString = objectMapper.writeValueAsString(feedback);
-            PublishResult result = feedbackService.publishFeedback(feedBackType, feedBackJsonString);
+            PublishResult result = feedbackService.publishFeedback(newFeedback.getType(), feedBackJsonString);
             return new ResponseEntity<>("Feedback received with ID: " + result.getMessageId(), HttpStatus.CREATED);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
