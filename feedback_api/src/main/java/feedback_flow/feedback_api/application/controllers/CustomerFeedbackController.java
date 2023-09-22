@@ -59,6 +59,10 @@ public class CustomerFeedbackController {
     }
 
     @GetMapping("/history/{customerFeedBackId}")
+    @Operation(summary = "Get a specific feedback")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved the specific costumer feedback")
+    })
     public CustomerFeedback show(@PathVariable Long customerFeedBackId) throws Exception {
         return this.feedbackService.findCustomerFeedbackById(customerFeedBackId);
     }
@@ -83,7 +87,5 @@ public class CustomerFeedbackController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
-
     }
-
 }
