@@ -1,7 +1,7 @@
-package feedback_flow.feedback_api.domain.request;
+package feedback_flow.feedback_api.application.requests;
 
-import feedback_flow.feedback_api.domain.model.CustomerFeedback;
-import feedback_flow.feedback_api.domain.model.CustomerFeedbackType;
+import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedback;
+import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedbackType;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

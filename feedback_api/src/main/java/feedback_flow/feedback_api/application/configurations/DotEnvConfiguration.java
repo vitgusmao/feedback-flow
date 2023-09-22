@@ -1,4 +1,4 @@
-package feedback_flow.feedback_api.domain.configuration;
+package feedback_flow.feedback_api.application.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,4 +1,4 @@
-package feedback_flow.feedback_api.domain.model;
+package feedback_flow.feedback_api.domain.customerFeedback;
 
 public enum CustomerFeedbackStatus {
     FINISHED,

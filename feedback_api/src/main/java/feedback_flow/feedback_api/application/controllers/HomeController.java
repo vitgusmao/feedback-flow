@@ -1,4 +1,4 @@
-package feedback_flow.feedback_api.domain.controller;
+package feedback_flow.feedback_api.application.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
