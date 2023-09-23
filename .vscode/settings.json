@@ -19,5 +19,6 @@
   "java.import.gradle.enabled": false,
   "java.import.gradle.wrapper.enabled": false,
   "java.maven.updateSnapshots": true,
-  "maven.pomfile.autoUpdateEffectivePOM": true
+  "maven.pomfile.autoUpdateEffectivePOM": true,
+  "maven.view": "hierarchical"
 }

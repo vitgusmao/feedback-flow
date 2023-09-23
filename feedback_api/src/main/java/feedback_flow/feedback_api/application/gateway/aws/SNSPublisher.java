@@ -23,11 +23,10 @@ public class SNSPublisher {
         this.amazonSNS = amazonSNS;
     }
 
-    public void publishMessage(String queueURL, String message) {
+    public void publishMessage(String topicARN, String message) {
         try {
             PublishRequest publishRequest = new PublishRequest()
-                    .withTopicArn(queueURL)
-                    // .withTargetArn(message)
+                    .withTopicArn(topicARN)
                     .withMessage(message)
                     .withMessageGroupId(messageGroupId);
 

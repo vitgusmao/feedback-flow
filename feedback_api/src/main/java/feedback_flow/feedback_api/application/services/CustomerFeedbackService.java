@@ -29,8 +29,8 @@ public class CustomerFeedbackService {
     }
 
     public void publishFeedback(CustomerFeedbackType feedbackType, String message) {
-        String queueUrl = topicARNMapping.getConstant(feedbackType);
-        publisher.publishMessage(queueUrl, message);
+        String topicARN = topicARNMapping.getConstant(feedbackType);
+        publisher.publishMessage(topicARN, message);
     }
 
     public CustomerFeedback findCustomerFeedbackById(Long id) throws Exception {
