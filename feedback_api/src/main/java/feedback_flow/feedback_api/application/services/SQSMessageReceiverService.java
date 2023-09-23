@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.amazonaws.services.sqs.model.Message;
 import com.amazonaws.services.sqs.model.ReceiveMessageResult;
 
-import feedback_flow.feedback_api.application.configurations.FeedbackQueueMapping;
+import feedback_flow.feedback_api.application.configurations.FeedbackQueueURLMapping;
 import feedback_flow.feedback_api.application.gateway.aws.SQSConsumer;
 import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedbackType;
 
@@ -19,18 +19,18 @@ import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedbackType;
 public class SQSMessageReceiverService {
 
     private final SQSConsumer consumer;
-    private final FeedbackQueueMapping queueMapping;
+    private final FeedbackQueueURLMapping queueURLMapping;
 
     @Autowired
-    public SQSMessageReceiverService(SQSConsumer consumer, FeedbackQueueMapping queueMapping) {
+    public SQSMessageReceiverService(SQSConsumer consumer, FeedbackQueueURLMapping queueURLMapping) {
         this.consumer = consumer;
-        this.queueMapping = queueMapping;
+        this.queueURLMapping = queueURLMapping;
     }
 
     private static final Logger LOG = LoggerFactory.getLogger(SQSMessageReceiverService.class);
 
     public void receiveMessages(CustomerFeedbackType feedbackType) {
-        String queueUrl = queueMapping.getQueueUrl(feedbackType);
+        String queueUrl = queueURLMapping.getConstant(feedbackType);
 
         ReceiveMessageResult receiveMessageResult = consumer.receiveMessages(queueUrl);
         List<Message> messages = receiveMessageResult.getMessages();

@@ -5,7 +5,7 @@ import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import feedback_flow.feedback_api.application.configurations.FeedbackTopicMappingConfiguration;
+import feedback_flow.feedback_api.application.configurations.FeedbackTopicARNMapping;
 import feedback_flow.feedback_api.application.gateway.aws.SNSPublisher;
 import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedbackType;
 
@@ -14,20 +14,22 @@ import java.util.List;
 @Service
 public class CustomerFeedbackService {
 
-    private final FeedbackTopicMappingConfiguration topicMapping;
+    private final FeedbackTopicARNMapping topicARNMapping;
     private final SNSPublisher publisher;
     private final CustomerFeedbackRepository repository;
 
     @Autowired
-    public CustomerFeedbackService(CustomerFeedbackRepository repository, SNSPublisher publisher,
-            FeedbackTopicMappingConfiguration topicMapping) {
+    public CustomerFeedbackService(
+            CustomerFeedbackRepository repository,
+            SNSPublisher publisher,
+            FeedbackTopicARNMapping topicARNMapping) {
         this.repository = repository;
         this.publisher = publisher;
-        this.topicMapping = topicMapping;
+        this.topicARNMapping = topicARNMapping;
     }
 
     public void publishFeedback(CustomerFeedbackType feedbackType, String message) {
-        String queueUrl = topicMapping.getTopicArn(feedbackType);
+        String queueUrl = topicARNMapping.getConstant(feedbackType);
         publisher.publishMessage(queueUrl, message);
     }
 
