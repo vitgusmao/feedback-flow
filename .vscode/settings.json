@@ -2,20 +2,22 @@
   "editor.formatOnSave": true,
   "[xml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-    // "editor.codeActionsOnSave": {
-    //   "source.fixAll.eslint": true
-    // }
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-    // "editor.codeActionsOnSave": {
-    //   "source.fixAll.eslint": true
-    // }
   },
   "[java]": { "editor.defaultFormatter": "redhat.java" },
+  "cSpell.words": ["Configurer"],
+  "java.autobuild.enabled": true,
   "java.compile.nullAnalysis.mode": "automatic",
+  "java.completion.chain.enabled": true,
+  "java.completion.enabled": true,
   "java.configuration.updateBuildConfiguration": "automatic",
-  "maven.pomfile.autoUpdateEffectivePOM": true,
+  "java.edit.smartSemicolonDetection.enabled": true,
   "java.editor.reloadChangedSources": "auto",
-  "cSpell.words": ["Configurer"]
+  "java.import.gradle.annotationProcessing.enabled": false,
+  "java.import.gradle.enabled": false,
+  "java.import.gradle.wrapper.enabled": false,
+  "java.maven.updateSnapshots": true,
+  "maven.pomfile.autoUpdateEffectivePOM": true
 }
