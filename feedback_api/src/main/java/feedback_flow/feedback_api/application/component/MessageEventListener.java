@@ -40,7 +40,7 @@ public class MessageEventListener {
             }
         });
 
-        LOG.info("Starting consumer thread");
+        LOG.info("Starting SQS Consumer thread");
         eventListenerThread.start();
     }
 

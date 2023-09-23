@@ -9,23 +9,17 @@ import io.github.cdimascio.dotenv.Dotenv;
 @Configuration
 public class FeedbackTopicMappingConfiguration {
 
-    private final Dotenv dotenv;
-
     @Autowired
-    public FeedbackTopicMappingConfiguration(Dotenv dotenv) {
-        this.dotenv = dotenv;
-    }
+    private Dotenv dotenv;
 
     public String getTopicArn(CustomerFeedbackType feedbackType) {
-        switch (feedbackType) {
-            case SUGGESTION:
-                return dotenv.get("AWS_SNS_TOPIC_SUGGESTION");
-            case COMPLIMENT:
-                return dotenv.get("AWS_SNS_TOPIC_COMPLIMENT");
-            case CRITIQUE:
-                return dotenv.get("AWS_SNS_TOPIC_CRITIQUE");
-            default:
-                throw new IllegalArgumentException("Unsupported feedback type: " + feedbackType);
+
+        String typeString = feedbackType.toString();
+        String topicARN = dotenv.get("AWS_SNS_TOPIC_" + typeString);
+
+        if (topicARN == null) {
+            throw new IllegalArgumentException("Unsupported feedback type: " + feedbackType);
         }
+        return topicARN;
     }
 }

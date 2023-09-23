@@ -1,6 +1,7 @@
 package feedback_flow.feedback_api.domain.customerFeedback;
 
 import feedback_flow.feedback_api.application.dtos.CustomerFeedbackDTO;
+import feedback_flow.feedback_api.application.requests.CreateCustomerFeedbackRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +33,12 @@ public class CustomerFeedback {
     public CustomerFeedback(CustomerFeedbackDTO customerFeedbackDTO) {
         this.message = customerFeedbackDTO.message();
         this.type = customerFeedbackDTO.type();
+        this.status = CustomerFeedbackStatus.RECEIVED;
+    }
+
+    public CustomerFeedback(CreateCustomerFeedbackRequest createCustomerFeedbackRequest) {
+        this.message = createCustomerFeedbackRequest.getMessage();
+        this.type = createCustomerFeedbackRequest.getType();
         this.status = CustomerFeedbackStatus.RECEIVED;
     }
 }

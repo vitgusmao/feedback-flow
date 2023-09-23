@@ -11,14 +11,6 @@
       "mainClass": "feedback_flow.feedback_api.FeedbackApiApplication",
       "projectName": "feedback_api",
       "cwd": "${workspaceFolder}/feedback_api"
-    },
-    {
-      "type": "java",
-      "name": "QueueConsumerApplication",
-      "request": "launch",
-      "mainClass": "feedback_flow.queue_consumer.QueueConsumerApplication",
-      "projectName": "queue_consumer",
-      "cwd": "${workspaceFolder}/queue_consumer"
     }
   ]
 }
