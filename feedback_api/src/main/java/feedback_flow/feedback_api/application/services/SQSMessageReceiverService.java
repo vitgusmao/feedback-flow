@@ -2,7 +2,11 @@ package feedback_flow.feedback_api.application.services;
 
 import java.util.List;
 
-import org.apache.commons.lang3.NotImplementedException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import feedback_flow.feedback_api.application.dtos.CustomerFeedbackDTO;
+import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedbackStatus;
+import io.github.cdimascio.dotenv.Dotenv;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +24,16 @@ public class SQSMessageReceiverService {
 
     private final SQSConsumer consumer;
     private final FeedbackQueueURLMapping queueURLMapping;
+    private final CustomerFeedbackService feedbackService;
+
+    private final Dotenv dotenv;
 
     @Autowired
-    public SQSMessageReceiverService(SQSConsumer consumer, FeedbackQueueURLMapping queueURLMapping) {
+    public SQSMessageReceiverService(SQSConsumer consumer, FeedbackQueueURLMapping queueURLMapping, CustomerFeedbackService feedbackService, Dotenv dotenv) {
         this.consumer = consumer;
         this.queueURLMapping = queueURLMapping;
+        this.feedbackService = feedbackService;
+        this.dotenv = dotenv;
     }
 
     private static final Logger LOG = LoggerFactory.getLogger(SQSMessageReceiverService.class);
@@ -52,8 +61,16 @@ public class SQSMessageReceiverService {
         }
     }
 
-    private void processMessage(Message message) {
-        throw new NotImplementedException();
+    private void processMessage(Message message) throws Exception {
+        LOG.info(message.getMessageId());
+        ObjectMapper objectMapper = new ObjectMapper();
+        CustomerFeedbackDTO customerFeedbackDTO = objectMapper.readValue(new JSONObject(message.getBody()).getString("Message"), CustomerFeedbackDTO.class);
+
+        this.feedbackService.updateCustomerFeedback(customerFeedbackDTO, CustomerFeedbackStatus.PROCESSING);
+
+        Thread.sleep(Long.parseLong(dotenv.get("TIME_PROCESSING_QUEUE")));
+
+        this.feedbackService.updateCustomerFeedback(customerFeedbackDTO, CustomerFeedbackStatus.FINISHED);
     }
 
 }
