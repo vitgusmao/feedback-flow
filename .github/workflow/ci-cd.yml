@@ -1,0 +1,30 @@
+name: CI/CD for Java Spring Boot
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        if: success()
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        cache: 'maven'
+        with:
+          java-version: '17' # Versão do Java definida para o projeto
+        if: success()
+
+      - name: Build with Maven
+        run: mvn clean install
+        if: success()
+
+      - name: Run Tests
+        run: mvn test
+        if: success()
