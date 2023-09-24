@@ -1,7 +1,9 @@
 package feedback_flow.feedback_api.application.services;
 
+import feedback_flow.feedback_api.application.dtos.CustomerFeedbackDTO;
 import feedback_flow.feedback_api.application.repositories.CustomerFeedbackRepository;
 import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedback;
+import feedback_flow.feedback_api.domain.customerFeedback.CustomerFeedbackStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +30,9 @@ public class CustomerFeedbackService {
         this.topicARNMapping = topicARNMapping;
     }
 
-    public void publishFeedback(CustomerFeedbackType feedbackType, String message) {
+    public void publishFeedback(CustomerFeedbackType feedbackType, String message, Long id) {
         String topicARN = topicARNMapping.getConstant(feedbackType);
-        publisher.publishMessage(topicARN, message);
+        publisher.publishMessage(topicARN, message, id);
     }
 
     public CustomerFeedback findCustomerFeedbackById(Long id) throws Exception {
@@ -40,6 +42,14 @@ public class CustomerFeedbackService {
 
     public CustomerFeedback saveCustomerFeedback(CustomerFeedback customerFeedback) {
         return this.repository.save(customerFeedback);
+    }
+
+    public void updateCustomerFeedback(CustomerFeedbackDTO customerFeedbackDTO, CustomerFeedbackStatus newStatus) throws Exception{
+        CustomerFeedback customerFeedback = this.findCustomerFeedbackById(customerFeedbackDTO.id());
+
+        customerFeedback.setStatus(newStatus);
+
+        this.repository.save(customerFeedback);
     }
 
     public List<CustomerFeedback> showAllCustomerFeedback() {
