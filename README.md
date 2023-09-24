@@ -33,16 +33,28 @@ Crie um json seguindo esse formato para cada conjunto de fila-tópico
 
 ```json
 {
+  "Version": "2012-10-17",
+  "Id": "__default_policy_ID",
   "Statement": [
     {
+      "Sid": "__owner_statement",
       "Effect": "Allow",
       "Principal": {
-        "Service": "sns.amazonaws.com"
+        "AWS": "arn:aws:iam::<user-id>:root"
       },
-      "Action": "sqs:SendMessage",
+      "Action": "SQS:*",
+      "Resource": "arn:aws:sqs:<region-id>:<user-id>:<QueueName>.fifo"
+    },
+    {
+      "Sid": "topic-subscription-arn:aws:sns:<region-id>:<user-id>:<TopicName>.fifo",
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Action": "SQS:SendMessage",
       "Resource": "arn:aws:sqs:<region-id>:<user-id>:<QueueName>.fifo",
       "Condition": {
-        "ArnEquals": {
+        "ArnLike": {
           "aws:SourceArn": "arn:aws:sns:<region-id>:<user-id>:<TopicName>.fifo"
         }
       }
