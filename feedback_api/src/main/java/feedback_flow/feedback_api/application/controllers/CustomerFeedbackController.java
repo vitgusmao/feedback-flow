@@ -31,7 +31,7 @@ public class CustomerFeedbackController {
 
     @Autowired
     public CustomerFeedbackController(CustomerFeedbackRepository feedbackRepository,
-            CustomerFeedbackService feedbackService) {
+        CustomerFeedbackService feedbackService) {
         this.feedbackRepository = feedbackRepository;
         this.feedbackService = feedbackService;
     }
@@ -71,13 +71,14 @@ public class CustomerFeedbackController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved all costumers feedbacks") })
     public ResponseEntity<String> submitFeedback(@Valid @RequestBody CreateCustomerFeedbackRequest feedback) {
 
+        CustomerFeedback customerFeedback = this.feedbackService.saveCustomerFeedback(new CustomerFeedback(feedback));
+
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            String feedBackJsonString = objectMapper.writeValueAsString(feedback);
-            feedbackService.publishFeedback(feedback.getType(), feedBackJsonString);
+            String feedBackJsonString = objectMapper.writeValueAsString(customerFeedback);
+            feedbackService.publishFeedback(customerFeedback.getType(), feedBackJsonString, customerFeedback.getId());
 
-            CustomerFeedback newFeedback = feedbackService.saveCustomerFeedback(new CustomerFeedback(feedback));
-            return new ResponseEntity<>(objectMapper.writeValueAsString(newFeedback), HttpStatus.CREATED);
+            return new ResponseEntity<>(objectMapper.writeValueAsString(customerFeedback), HttpStatus.CREATED);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(e.getMessage());
@@ -85,5 +86,7 @@ public class CustomerFeedbackController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
+
     }
+
 }
