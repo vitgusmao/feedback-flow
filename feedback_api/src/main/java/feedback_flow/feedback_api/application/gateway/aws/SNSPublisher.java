@@ -23,9 +23,10 @@ public class SNSPublisher {
         this.amazonSNS = amazonSNS;
     }
 
-    public void publishMessage(String topicARN, String message) {
+    public void publishMessage(String topicARN, String message, Long id) {
         try {
             PublishRequest publishRequest = new PublishRequest()
+                    .withMessageDeduplicationId(id.toString())
                     .withTopicArn(topicARN)
                     .withMessage(message)
                     .withMessageGroupId(messageGroupId);
