@@ -18,7 +18,7 @@ import lombok.*;
 public class CustomerFeedback {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 250, nullable = false)
