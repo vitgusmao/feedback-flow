@@ -28,7 +28,7 @@ const Topic = () => {
 
     useEffect(_ => {
         getFeedbacks();
-        setInterval(getFeedbacks, 5000);
+        setInterval(getFeedbacks, 2000);
     }, [])
 
     return (
