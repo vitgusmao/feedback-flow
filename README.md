@@ -62,3 +62,26 @@ aws sqs set-queue-attributes --queue-url <YourQueueURL> --attributes Policy='<Po
 ```bash
 aws sns subscribe --topic-arn arn:aws:sns:<region-id>:<user-id>:<TopicName>.fifo --protocol sqs --notification-endpoint arn:aws:sqs:<region-id>:<user-id>:<QueueName>.fifo
 ```
+
+
+## Configurando variáveis de ambiente
+
+Na pasta raiz do repositorio terá um arquivo chamado `sample.env` copie para `.env` no mesmo diretorio
+> Agora dentro do arquivo `.env` terá as seguintes variáveis: 
+
+```env
+AWS_ACCESS_KEY=AWS_ACCESS_KEY_SAMPLE
+AWS_SECRET_KEY=AWS_SECRET_KEY_SAMPLE
+
+AWS_SNS_TOPIC_SUGGESTION=arn:aws:sqs:<region-id>:<user-id>:<TopicName>.fifo
+AWS_SNS_TOPIC_COMPLIMENT=arn:aws:sqs:<region-id>:<user-id>:<TopicName>.fifo
+AWS_SNS_TOPIC_CRITIQUE=arn:aws:sqs:<region-id>:<user-id>:<TopicName>.fifo
+
+AWS_SQS_QUEUE_SUGGESTION=https://sqs.<region-id>.amazonaws.com/<user-id>/<TopicName>.fifo
+AWS_SQS_QUEUE_COMPLIMENT=https://sqs.<region-id>.amazonaws.com/<user-id>/<TopicName>.fifo
+AWS_SQS_QUEUE_CRITIQUE=https://sqs.<region-id>.amazonaws.com/<user-id>/<TopicName>.fifo
+
+TIME_PROCESSING_QUEUE=10000
+```
+> Substitua as credencias de acesso da amazon pelas suas, que podem ser obtidas utilizando o serviço IAM no console da AWS
+> Substitua as informações SNS e SQS com os dados obtidos pelos comandos anteriores
