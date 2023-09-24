@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 const setConfigApi = _ => {
-    let url = 'http://localhost:8080/api/customer-feedback';
+    let url = `${import.meta.env.VITE_API_URL}/api/customer-feedback`;
     
     axios.defaults.baseURL = url;
 }
